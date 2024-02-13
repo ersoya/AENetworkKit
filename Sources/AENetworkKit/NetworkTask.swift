@@ -14,7 +14,7 @@ public protocol NetworkTask {
     var httpMethod: HTTPMethods { get }
     var headers: [String: String]? { get }
     var urlParameters: [String: Any]? { get }
-    var bodyParameters: Data? { get }
+    var bodyParameters: [String: Any]? { get }
 }
 
 public extension NetworkTask {
@@ -31,7 +31,7 @@ public extension NetworkTask {
         nil
     }
     
-    var bodyParameters: Data? {
+    var bodyParameters: [String: Any]? {
         nil
     }
 }
