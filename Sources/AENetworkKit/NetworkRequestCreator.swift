@@ -11,7 +11,9 @@ struct NetworkRequestCreator {
     
     static func request(for task: NetworkTask) -> URLRequest {
         var components: URLComponents = URLComponents(string: task.base.appending(task.path))!
-        components.queryItems = []
+        if task.urlParameters != nil {
+            components.queryItems = []
+        }
         
         task.urlParameters?.forEach({
             let query: URLQueryItem = .init(name: $0.key, value: "\($0.value)")
