@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 public protocol NetworkManagerProtocol {
-    func send<T: Codable, E: Codable>(_ task: NetworkTask) async throws -> (T?, E?)
+    func send<T: Codable>(_ task: NetworkTask) async throws -> (T)
 }
 
 public final class NetworkManager: NetworkManagerProtocol {
@@ -20,16 +20,9 @@ public final class NetworkManager: NetworkManagerProtocol {
     
     private init() {}
     
-    public func send<T: Codable, E: Codable>(_ task: NetworkTask) async throws -> (T?, E?) {
+    public func send<T: Codable>(_ task: NetworkTask) async throws -> (T) {
         let urlRequest: URLRequest = NetworkRequestCreator.request(for: task)
-        let (data, response) = try await session.data(for: urlRequest)
-        
-        if let result = try? JSONDecoder().decode(T.self, from: data) {
-            return (result, nil)
-        }
-        if let error = try? JSONDecoder().decode(E.self, from: data) {
-            return (nil, error)
-        }
-        return (nil, nil)
+        let (data, _) = try await session.data(for: urlRequest)
+        return try JSONDecoder().decode(T.self, from: data)
     }
 }
