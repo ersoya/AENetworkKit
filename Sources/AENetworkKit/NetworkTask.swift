@@ -15,6 +15,7 @@ public protocol NetworkTask {
     var headers: [String: String]? { get }
     var urlParameters: [String: Any]? { get }
     var bodyParameters: [String: Any]? { get }
+    var multipartData: Data? { get }
 }
 
 public extension NetworkTask {
@@ -32,6 +33,10 @@ public extension NetworkTask {
     }
     
     var bodyParameters: [String: Any]? {
+        nil
+    }
+    
+    var multipartData: Data? {
         nil
     }
 }
